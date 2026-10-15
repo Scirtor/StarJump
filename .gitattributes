@@ -4,3 +4,4 @@
 *.ttf binary
 *.zip binary
 *.apk binary
+legacy/** -text

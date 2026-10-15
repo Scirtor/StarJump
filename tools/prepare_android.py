@@ -52,7 +52,10 @@ def prepare(skip_web=False):
     rc_path = target / 'runtime/0.9.3/cpythonrc.py'
     rc = rc_path.read_text()
     # pep0723's wheel index is separate from the JavaScript interpreter CDN.
-    rc = rc.replace('import os\n', 'import os\nimport platform\nos.environ["PYGPI"] = str(platform.window.location.href).rsplit("/", 1)[0] + "/runtime/"\n', 1)
+    marker = '        from platform import window, document, ffi\n'
+    if marker not in rc:
+        raise RuntimeError('Pygbag initialization changed; review the offline wheel-index patch.')
+    rc = rc.replace(marker, '        from platform import window, document, ffi\n        os.environ["PYGPI"] = str(window.location.href).rsplit("/", 1)[0] + "/runtime/"\n', 1)
     rc_path.write_text(rc)
     html_path = target / 'index.html'
     html = html_path.read_text()
