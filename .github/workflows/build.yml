@@ -41,6 +41,7 @@ jobs:
       - name: Prepare downloads
         run: |
           cp android/app/build/outputs/apk/debug/app-debug.apk dist/StarJump-Android-preview.apk
+          python tools/verify_apk.py dist/StarJump-Android-preview.apk --build-tools "$ANDROID_HOME/build-tools/35.0.0"
           cd dist
           sha256sum StarJump-web.zip StarJump-Android-preview.apk > SHA256SUMS
       - uses: actions/upload-artifact@v4
@@ -50,6 +51,7 @@ jobs:
             dist/StarJump-web.zip
             dist/StarJump-Android-preview.apk
             dist/SHA256SUMS
+            dist/Android-verification.json
           if-no-files-found: error
   release:
     if: startsWith(github.ref, 'refs/tags/')
