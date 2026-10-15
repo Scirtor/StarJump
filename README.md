@@ -4,6 +4,8 @@
 
 [Download Android preview and web edition](https://github.com/Scirtor/StarJump/releases)
 
+[Play in your browser or download the Android preview on itch.io](https://scirtor.itch.io/starjump)
+
 A single-level platformer by Nurzhan Bekmurat (Scirtor), rebuilt from the May 2024 college graduation project for desktop browsers, Android and iPhone. An offline Android APK wrapper is also included. Reach the star above the lunar tower with movement and a double jump.
 
 ## What changed
@@ -47,6 +49,14 @@ Open **http://127.0.0.1:8766/**. Use the numeric loopback address: Pygbag treats
 The first run downloads the Python/WebAssembly runtime from the versioned pygame-web CDN plus about 3.2 MiB of game data. Its runtime files are cached by the service worker before gameplay. The offline indication appears in the installation help after successful caching. The browser can evict cached files when storage is low; reconnect and launch once to restore them. New builds refresh the game cache while preserving the versioned runtime and saved progress.
 
 `stage.apk` inside the web archive is a ZIP asset bundle for the Pygbag itch.io loader, **not an Android application**. The installable release is the website. itch.io's embedded player can run the game; home-screen installation should use its own HTTPS address.
+
+For itch.io, run `python tools/build_itch.py` after the web build and upload
+`dist/StarJump-itch.zip` as the browser-playable file. This export keeps the ZIP
+asset bundle and omits the gzip alternative, service worker and home-screen
+installation UI. itch.io's CDN transparently decompresses gzip files, and the
+embedded player is not the standalone PWA installation surface. Upload the real
+Android APK separately as an Android download. The published page uses a
+960×540 embed, a fullscreen button and the mobile-friendly setting.
 
 ## Android APK
 
