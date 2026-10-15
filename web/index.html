@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ru"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#181125">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="description" content="StarJump — доберись до звезды на вершине лунной башни. Платформер с двойным прыжком.">
+<title>StarJump</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<style>
+:root{color-scheme:dark;font-family:system-ui,sans-serif;background:#181125;color:#f3eeff}
+*{box-sizing:border-box}body{margin:0;overscroll-behavior:none;overflow:hidden;touch-action:none}
+#game-stage{position:fixed;left:env(safe-area-inset-left);right:env(safe-area-inset-right);top:env(safe-area-inset-top);bottom:env(safe-area-inset-bottom)}
+#canvas{position:absolute!important;inset:0!important;margin:0!important;width:100%!important;height:100%!important;border:0;padding:0;outline:none;touch-action:none;image-rendering:pixelated}
+#canvas3d,#crt,#pyconsole,#html,#stdout,#transfer{display:none!important}
+#infobox{position:fixed;inset:0;z-index:10;display:grid;place-content:center;text-align:center;background:#181125;padding:28px;line-height:1.6;white-space:pre-line}
+#infobox:before{content:'✦ STAR JUMP';font-size:36px;letter-spacing:3px;color:#d4b3ff;margin-bottom:20px}
+#tools{position:fixed;top:calc(env(safe-area-inset-top) + 12px);left:calc(env(safe-area-inset-left) + 12px);z-index:11;display:flex;gap:8px}
+button{font:inherit;border:1px solid #665080;background:#292039;color:#f3eeff;border-radius:12px;padding:10px 16px;cursor:pointer;touch-action:manipulation}
+button.primary{background:#7751be;border-color:#bf9fff}button:focus-visible{outline:3px solid #ffd266}
+[hidden]{display:none!important}dialog{touch-action:pan-y;max-width:500px;width:calc(100% - 32px);max-height:80dvh;overflow:auto;background:#211a30;color:#f3eeff;border:1px solid #8869ac;border-radius:22px;padding:24px;line-height:1.55;z-index:20}dialog::backdrop{background:#080612c9}h1{font-size:25px;margin-top:0}p{color:#d4c9e7}small{color:#b6a5cc}#offline-state{display:block;margin:16px 0}
+</style>
+<script>
+window.starjumpPauseRequested=false;
+window.starjumpPlaying=false;
+window.config={xtermjs:0,_sdl2:'canvas',user_canvas:0,user_canvas_managed:1,gui_divider:1,ume_block:0,can_close:0,archive:'stage',gui_debug:0,cdn:'https://pygame-web.github.io/cdn/0.9.3/',autorun:0,PYBUILD:'3.12',fb_ar:1.77,fb_width:'1280',fb_height:'720'};
+function custom_onload(){document.getElementById('infobox').hidden=false}
+function custom_prerun(){} function custom_postrun(){}
+function show_infobox(){}
+window.starjumpReady=()=>{document.getElementById('infobox').hidden=true;document.getElementById('tools').hidden=false;document.getElementById('canvas').focus();navigator.serviceWorker?.controller?.postMessage({type:'READY'})};
+window.starjumpSetPlaying=playing=>{window.starjumpPlaying=playing;document.getElementById('tools').hidden=playing};
+</script>
+</head><body>
+<div id="game-stage"><canvas id="canvas" tabindex="0" aria-label="StarJump — игровое поле" oncontextmenu="event.preventDefault()"></canvas><canvas id="canvas3d" hidden></canvas></div>
+<div id="infobox" role="status">Загружаем лунную башню…
+Первый запуск может занять немного времени.</div>
+<nav id="tools" hidden aria-label="Установка игры"><button id="install-help">На экран телефона ↗</button></nav>
+<dialog id="install-dialog" aria-labelledby="install-title"><h1 id="install-title">StarJump всегда под рукой</h1>
+<p><strong>iPhone / iPad:</strong> открой эту страницу в Safari → «Поделиться» → «На экран “Домой”» → включи «Открывать как веб-приложение», если этот пункт есть → «Добавить».</p>
+<p><strong>Android:</strong> открой страницу в Chrome → меню ⋮ → «Установить приложение» или «Добавить на главный экран».</p>
+<button id="install-now" class="primary" hidden>Установить StarJump</button>
+<small id="offline-state" role="status">Для первого запуска нужен интернет. После загрузки игра сохраняется на этом устройстве.</small>
+<p><small>Управление: стрелки / A, D и двойной прыжок на пробел. На телефоне удерживай стрелку одним пальцем, прыгай другим. Можно повернуть экран. Прогресс хранится только в этом браузере.</small></p>
+<button id="close-install">Понятно</button></dialog>
+<div id="transfer" hidden><span id="status"></span><progress id="progress" value="0" max="100"></progress></div>
+<div id="html" hidden></div><div id="crt" hidden><div id="system"></div><div id="box"><div id="info"></div><iframe id="iframe" title="Runtime" src="about:blank"></iframe></div></div><div id="pyconsole" hidden><div id="terminal"></div></div><pre id="stdout" hidden></pre>
+<script id="python-source" type="text/plain">__PYGBAG_BOOT__</script>
+<script src="boot.js?v=__REVISION__"></script>
+</body></html>

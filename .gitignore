@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+.pytest_cache/
+build/
+dist/
+*.pstats
+*.log
+save.json
+node_modules/
+.gradle/
+android/.gradle/
+android/app/build/
+android/app/src/main/assets/
+android/app/src/main/res/drawable/game_icon.png
+android/local.properties
+*.jks
+*.keystore

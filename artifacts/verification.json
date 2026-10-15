@@ -1,0 +1,25 @@
+{
+  "date": "2026-10-15",
+  "python_tests": {
+    "passed": 25,
+    "command": ".venv/bin/python -m pytest -q"
+  },
+  "service_worker_tests": {
+    "passed": 1,
+    "command": "node --test tests/service-worker.test.cjs"
+  },
+  "level_completion": {
+    "frames": 2606,
+    "deaths": 0,
+    "teleports": 0,
+    "geometry_modified": false
+  },
+  "browser": "Chrome desktop, viewport sizes 390x844 and 844x390, plus normal desktop size",
+  "hardware_testing": {
+    "android_chrome": "not performed",
+    "iphone_safari": "not performed"
+  },
+  "deployment": "local preview; HTTPS destination awaiting user choice",
+  "browser_offline_check": "Final Chrome build reloaded with the local static server stopped; gameplay, pause, return to menu and saved coins verified. CDN/network disconnect was not simulated.",
+  "browser_update_check": "Versioned app cache refresh and preserved local progress tested in the final PWA shell."
+}

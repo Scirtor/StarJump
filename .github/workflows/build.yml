@@ -1,0 +1,69 @@
+name: Test and build StarJump
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: pip
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: pip install -r requirements-dev.txt
+      - name: Test game and offline cache
+        run: |
+          python -m pytest -q
+          node --test tests/service-worker.test.cjs
+      - name: Build web game and offline Android assets
+        run: python tools/prepare_android.py
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.13'
+      - name: Compile and lint Android APK
+        run: gradle --no-daemon -p android assembleDebug lintDebug
+      - name: Prepare downloads
+        run: |
+          cp android/app/build/outputs/apk/debug/app-debug.apk dist/StarJump-Android-preview.apk
+          cd dist
+          sha256sum StarJump-web.zip StarJump-Android-preview.apk > SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: StarJump-downloads
+          path: |
+            dist/StarJump-web.zip
+            dist/StarJump-Android-preview.apk
+            dist/SHA256SUMS
+          if-no-files-found: error
+  release:
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: StarJump-downloads
+          path: downloads
+      - name: Publish preview downloads
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          gh release create "$RELEASE_TAG" downloads/* --prerelease --title "StarJump Android preview" --notes "Installable Android test APK with bundled offline runtime, plus the installable web game. Android 8+ and a current Android System WebView are required. This preview uses a debug signing certificate and has not yet been tested on physical Android/iPhone devices. APK is Android-only; iPhone uses the web edition."

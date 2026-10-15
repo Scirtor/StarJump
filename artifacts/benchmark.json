@@ -1,0 +1,21 @@
+{
+  "frames": 300,
+  "repeats": 3,
+  "environment": "Same process, pygame-ce 2.5.8, SDL dummy video, uncapped, unprofiled. Stationary start scene. Both timings include game/level construction and 300 presented frames. Not mobile FPS.",
+  "original_seconds": [
+    4.417393477999667,
+    4.315546792999612,
+    4.296032884999931
+  ],
+  "new_seconds": [
+    0.8111732580000535,
+    0.7507992599998943,
+    0.763436382999771
+  ],
+  "original_median": 4.315546792999612,
+  "new_median": 0.763436382999771,
+  "visible_blocks": 44,
+  "total_blocks": 362,
+  "image_loads_new": 10,
+  "collision_candidates": 2
+}
