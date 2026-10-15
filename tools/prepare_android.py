@@ -48,6 +48,9 @@ def prepare(skip_web=False):
     shutil.copytree(web, target)
     for name in ('stage.apk', 'sw.js', 'favicon.png'):
         (target / name).unlink(missing_ok=True)
+    # Android's asset packager expands .gz files and strips that extension.
+    # Keep the gzip payload opaque so Python receives the expected bytes.
+    (target / 'stage.tar.gz').rename(target / 'game.bundle')
     shutil.copytree(cache, target / 'runtime')
     rc_path = target / 'runtime/0.9.3/cpythonrc.py'
     rc = rc_path.read_text()
@@ -58,7 +61,7 @@ def prepare(skip_web=False):
     rc = rc.replace(marker, '        from platform import window, document, ffi\n        os.environ["PYGPI"] = str(window.location.href).rsplit("/", 1)[0] + "/runtime/"\n', 1)
     rc_path.write_text(rc)
     html_path = target / 'index.html'
-    html = html_path.read_text()
+    html = html_path.read_text().replace('stage.tar.gz', 'game.bundle')
     html = html.replace("cdn:'https://pygame-web.github.io/cdn/0.9.3/'", "cdn:new URL('./runtime/0.9.3/', location.href).href")
     html = html.replace("document.getElementById('tools').hidden=false", "document.getElementById('tools').hidden=true")
     html = html.replace("document.getElementById('tools').hidden=playing", "document.getElementById('tools').hidden=true")

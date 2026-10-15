@@ -67,7 +67,7 @@ APK output: `android/app/build/outputs/apk/debug/app-debug.apk`. GitHub Actions 
 
 ## Verification
 
-- 25 Python tests: collision lookup, negative coordinates, landing, wall/ceiling collisions, double jump, checkpoints/hazards, frame-rate independence, pause, multitouch, touch/mouse deduplication, saves and screen layouts.
+- 25 game tests and three additional Android bundle checks: collision lookup, negative coordinates, landing, wall/ceiling collisions, double jump, checkpoints/hazards, frame-rate independence, pause, multitouch, touch/mouse deduplication, saves and screen layouts.
 - A complete input-only replay (`tests/completion-route.json`) reaches the star in 2,606 simulation steps without deaths or teleportation. `tools/find_route.py` can search for another route after geometry/physics changes.
 - A JavaScript worker test checks cache installation, preservation of unrelated caches and offline game/runtime responses.
 - Chrome browser checks at 390×844, 844×390 and desktop size. The final build also reloaded and resumed with the local static server stopped; a complete device network disconnect was not simulated. Actual Android Chrome and iPhone Safari hardware installation/touch testing is still required before calling this a fully verified mobile release.

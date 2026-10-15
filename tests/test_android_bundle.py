@@ -19,7 +19,9 @@ def test_native_shell_uses_local_runtime_and_disables_service_worker():
     assert 'if (false)' in boot
     assert "connect-src 'self'" in html
     assert not (ASSETS / 'stage.apk').exists()
-    assert (ASSETS / 'stage.tar.gz').is_file()
+    assert (ASSETS / 'game.bundle').is_file()
+    assert 'game.bundle' in html
+    assert not (ASSETS / 'stage.tar.gz').exists()
 
 
 def test_bundled_runtime_matches_reviewed_hashes_and_rc_initialization_order():

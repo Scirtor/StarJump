@@ -21,5 +21,13 @@
   },
   "deployment": "local preview; HTTPS destination awaiting user choice",
   "browser_offline_check": "Final Chrome build reloaded with the local static server stopped; gameplay, pause, return to menu and saved coins verified. CDN/network disconnect was not simulated.",
-  "browser_update_check": "Versioned app cache refresh and preserved local progress tested in the final PWA shell."
+  "browser_update_check": "Versioned app cache refresh and preserved local progress tested in the final PWA shell.",
+  "android_bundle_tests": {
+    "passed": 3,
+    "runtime": "Pygbag 0.9.3 / CPython 3.12 / pygame-ce 2.5.7",
+    "network_permission": false,
+    "browser_packaged_runtime_smoke_test": "passed; all runtime and wheel paths served locally under a same-origin-only CSP"
+  },
+  "source_folder": "/mnt/study/Politech/Diploma/Game/StarJump",
+  "repository": "https://github.com/Scirtor/StarJump"
 }

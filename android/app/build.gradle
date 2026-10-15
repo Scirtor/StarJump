@@ -13,6 +13,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
-    androidResources { noCompress 'wasm', 'data', 'whl', 'gz' }
+    androidResources { noCompress 'wasm', 'data', 'whl', 'bundle' }
     lint { abortOnError true }
 }

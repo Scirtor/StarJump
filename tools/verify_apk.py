@@ -2,6 +2,9 @@
 import argparse
 import hashlib
 import json
+import gzip
+import io
+import tarfile
 from pathlib import Path
 import subprocess
 import zipfile
@@ -21,7 +24,11 @@ with zipfile.ZipFile(args.apk) as apk:
             assert b'os.environ["PYGPI"] = str(window.location.href)' in data
         else:
             assert hashlib.sha256(data).hexdigest() == digest, name
-    assert 'assets/stage.tar.gz' in apk.namelist()
+    assert 'assets/game.bundle' in apk.namelist()
+    payload = gzip.decompress(apk.read('assets/game.bundle'))
+    with tarfile.open(fileobj=io.BytesIO(payload), mode='r:') as game:
+        assert 'assets/main.py' in game.getnames()
+        assert 'assets/data/level-1.json' in game.getnames()
     assert 'assets/stage.apk' not in apk.namelist()
     assert "connect-src 'self'" in apk.read('assets/index.html').decode()
 signature = subprocess.check_output([str(args.build_tools / 'apksigner'), 'verify', '--verbose', '--print-certs', str(args.apk)], text=True)
